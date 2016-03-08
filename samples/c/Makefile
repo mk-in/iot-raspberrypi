@@ -5,13 +5,15 @@ CFGDIR=$(DESTDIR)/etc/iotsample-raspberrypi
 COMPILELIBDIR=./lib
 LIBNAME=paho-mqtt3as
 
+CFLAGS ?= -Wall -W -O2
+
 all: iot
 
 .PHONY: all install clean distclean
 
 iot: iotmain.c cpustat.c mac.c mqttPublisher.c jsonator.c iot.h jsonReader.c
 	export LIBRARY_PATH=$(COMPILELIBDIR):$(LIBRARY_PATH)
-	$(CC) iotmain.c cpustat.c mac.c mqttPublisher.c jsonator.c cJSON.c jsonReader.c -o $@ -l$(LIBNAME) -lpthread -lssl -lm -L $(COMPILELIBDIR) -I .
+	$(CC) $(CFLAGS) iotmain.c cpustat.c mac.c mqttPublisher.c jsonator.c cJSON.c jsonReader.c -o $@ -l$(LIBNAME) -lpthread -lssl -lm -L $(COMPILELIBDIR) -I .
 	strip $@
 
 install: iot
