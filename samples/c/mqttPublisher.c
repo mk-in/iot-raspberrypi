@@ -46,7 +46,8 @@ int getDelay(char *text);
 /*
  * This function is called when the message is successfully published
  */
-void onSend(void* context, MQTTAsync_successData* response) {
+void onSend(void* context __attribute__((unused)),
+	MQTTAsync_successData* response) {
 
 #ifdef FINE
 	syslog(LOG_DEBUG, "Event with token value %d delivery confirmed\n",
@@ -57,7 +58,8 @@ void onSend(void* context, MQTTAsync_successData* response) {
 /*
  * This function is called when the subscription succeeds
  */
-void onSubscription(void* context, MQTTAsync_successData* response) {
+void onSubscription(void* context __attribute__((unused)),
+	MQTTAsync_successData* response __attribute__((unused))) {
 
 #ifdef FINE
 	syslog(LOG_INFO, "Subscription succeeded\n");
@@ -67,7 +69,8 @@ void onSubscription(void* context, MQTTAsync_successData* response) {
 /*
  * Called when the connection is successful. Update the connected variable
  */
-void onConnectSuccess(void* context, MQTTAsync_successData* response) {
+void onConnectSuccess(void* context __attribute__((unused)),
+	MQTTAsync_successData* response __attribute__((unused))) {
 
 #ifdef FINE
 	syslog(LOG_INFO, "Connection was successful\n");
@@ -98,7 +101,8 @@ int disconnect_mqtt_client(MQTTAsync* client) {
 /* 
  * On failure of connection to server, print the response code 
  */
-void onConnectFailure(void* context, MQTTAsync_failureData* response) {
+void onConnectFailure(void* context __attribute__((unused)),
+	MQTTAsync_failureData* response) {
 #ifdef ERROR
 	syslog(LOG_ERR, "Connect failed ");
 	if (response) {
@@ -112,11 +116,12 @@ void onConnectFailure(void* context, MQTTAsync_failureData* response) {
 /*
  * Function to process the subscribed messages
  */
-int subscribeMessage(void *context, char *topicName, int topicLen,
+int subscribeMessage(void *context __attribute__((unused)),
+		char *topicName, int topicLen __attribute__((unused)),
 		MQTTAsync_message *message) {
-	int i;
+	/* int i; */
 	char* payloadptr;
-	char* command;
+	char command[100];
 	int time_delay = 0;
 
 	payloadptr = message->payload;

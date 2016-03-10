@@ -14,6 +14,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <ctype.h>
 #include <math.h>
 #include <signal.h>
 #include "iot.h"
@@ -68,11 +69,12 @@ int disconnect_mqtt_client(MQTTAsync* client);
 int reconnect(MQTTAsync* client, int isRegistered,
 		char* username, char* passwd);
 
-int main(int argc, char **argv) {
+int main(int argc __attribute__((unused)),
+	 char **argv __attribute__((unused))) {
 
 	char* json;
 
-	int lckStatus;
+	/* int lckStatus; */
 	int res;
 	int sleepTimeout;
 	struct config configstr;
@@ -215,7 +217,7 @@ float sineVal(float minValue, float maxValue, float duration, float count) {
 }
 
 // Signal handler to handle when the user tries to kill this process. Try to close down gracefully
-void sig_handler(int signo) {
+void sig_handler(int signo __attribute__((unused))) {
 	syslog(LOG_INFO, "Received the signal to terminate the IoT process. \n");
 	syslog(LOG_INFO,
 			"Trying to end the process gracefully. Closing the MQTT connection. \n");
@@ -279,7 +281,7 @@ char *trim(char *str) {
 int get_config(char * filename, struct config * configstr) {
 
 	FILE* prop;
-	char str1[10], str2[10];
+	/* char str1[10], str2[10]; */
 	prop = fopen(filename, "r");
 	if (prop == NULL) {
 		syslog(LOG_INFO,"Config file not found. Going to Quickstart mode\n");
