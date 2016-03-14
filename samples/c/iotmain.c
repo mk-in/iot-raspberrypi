@@ -44,6 +44,7 @@ struct config {
 	char id[MAXBUF];
 	char authmethod[MAXBUF];
 	char authtoken[MAXBUF];
+	char nic[MAXBUF];
 };
 
 int get_config(char* filename, struct config * configstr);
@@ -115,7 +116,7 @@ int main(int argc __attribute__((unused)),
 	}
 
 	// read the events
-	char* mac_address = getmac("eth0");
+	char* mac_address = getmac(configstr.nic);
 	getClientId(&configstr, mac_address);
 	//the timeout between the connection retry
 	int connDelayTimeout = 1;	// default sleep for 1 sec
@@ -311,6 +312,8 @@ int get_config(char * filename, struct config * configstr) {
 			strncpy(configstr->authtoken, value, MAXBUF);
 		else if (strcmp(prop, "auth-method") == 0)
 					strncpy(configstr->authmethod, value, MAXBUF);
+		else if (strcmp(prop, "network-id") == 0)
+					strncpy(configstr->nic, value, MAXBUF);
 	}
 
 	return 1;
