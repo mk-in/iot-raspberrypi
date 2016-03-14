@@ -83,7 +83,7 @@ Onboard your device onto the Internet of Things Cloud. You will get the followin
 3. Device ID
 4. Authetication Method
 5. Authetication Token
-
+6. Network Interface ID
 
 Stop the iot process
 		
@@ -99,6 +99,7 @@ type = iotsample-raspberrypi
 id =b827eba84426
 auth-method=token
 auth-token = yourAuthToken
+network-id = eth0
 #End of Configuration file.	
 
 Note: All the properties in the configuration file are mandatory.
