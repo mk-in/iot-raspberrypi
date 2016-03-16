@@ -84,6 +84,10 @@ int main(int argc __attribute__((unused)),
 	char *username;
 	char msproxyUrl[MAXBUF];
 
+
+	// initialize configstr.nic
+	strncpy(configstr.nic,"",MAXBUF);
+
 	//setup the syslog logging
 	setlogmask(LOG_UPTO(LOGLEVEL));
 	openlog("iot", LOG_PID | LOG_CONS, LOG_USER);
@@ -117,6 +121,7 @@ int main(int argc __attribute__((unused)),
 
 	// read the events
 	char* mac_address = getmac(configstr.nic);
+	if (strncmp(configstr.nic,"", 1) ==0) {strncpy(configstr.nic,"eth0",MAXBUF);} //fall back to eth0 if nic not maintained in file
 	getClientId(&configstr, mac_address);
 	//the timeout between the connection retry
 	int connDelayTimeout = 1;	// default sleep for 1 sec
